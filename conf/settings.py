@@ -47,13 +47,11 @@ THIRD_PARTY_APPS = [
     'django_celery_monitor',
     'raven.contrib.django.raven_compat',
     'debug_toolbar',
-    'material',
-    'material.frontend',
+    'django_filters',
 ]
 
 LOCAL_APPS = [
     'apps.logger.apps.LoggerConfig',
-    'apps.human.apps.HumanConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
