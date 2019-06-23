@@ -2,19 +2,20 @@ from datetime import datetime
 
 from django.db.models import Count, Sum
 from django.http import HttpResponse
+from django_filters.views import FilterView
 from openpyxl import Workbook
-from utils.views import SearchListView
 
-from ..forms import SearchForm
+from ..filters import LogListFilter
 from ..models import Log
 
 
-class LogListView(SearchListView):
+class LogListView(FilterView):
     """Log List View"""
 
-    form_class = SearchForm
+    model = Log
     paginate_by = 10
-    # paginator_class = TimeLimitedPaginator
+    filterset_class = LogListFilter
+    template_name = 'logger/log_list.html'
 
     def get_initial(self):
         """Define default initial"""
@@ -22,10 +23,9 @@ class LogListView(SearchListView):
             'search': self.search
         }
 
-    def dispatch(self, request, *args, **kwargs):
-        """Override and store search parameter in instance property"""
-        self.search = self.request.GET.get('search', '')
-        return super().dispatch(request, *args, **kwargs)
+    def get_queryset(self):
+        """Override queryset"""
+        return LogListFilter(self.request.GET, queryset=self.model.objects.all()).qs
 
     def get_context_data(self, **kwargs):
         """Override template context"""
@@ -52,13 +52,6 @@ class LogListView(SearchListView):
         context['total_size'] = queryset.aggregate(total_size=Sum('size')).get('total_size')
 
         return context
-
-    def get_queryset(self):
-        """Override queryset with search filter"""
-        if self.search:
-            return Log.objects.filter(uri__contains=self.search)
-        else:
-            return Log.objects.all()
 
     def export_xlsx(self, request):
         """Export xlsx"""

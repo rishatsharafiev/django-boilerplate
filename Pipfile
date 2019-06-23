@@ -24,7 +24,7 @@ redis = "==3.2.1"
 tqdm = "==4.32.1"
 django-debug-toolbar = "==1.11"
 openpyxl = "==2.6.2"
-django-material = "==1.5.8"
+django-filter = "==2.1.0"
 
 [dev-packages]
 
