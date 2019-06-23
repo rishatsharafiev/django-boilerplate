@@ -7,10 +7,9 @@
         <div class="col-12">
             <form>
                 <div class="row">
-                    <label for="{{form.search.auto_id}}" class="col-sm-3 col-form-label">{{form.search.label}}</label>
-                    <div class="col-sm-5">
-                        {{ form.search }}
-                    </div>
+                    {{ filter.form.as_p }}
+                </div>
+                <div class="row">
                     <div class="col-sm-1">
                         <button type="submit" class="btn btn-primary mb-2">Найти</button>
                     </div>
